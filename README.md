@@ -14,7 +14,7 @@ As groundwater modeling enters the "ensemble era" (PESTPP-IES, PEST_HP), computa
     * `executables/`: Pre-compiled USG-TRANSPORT 1.8 binaries and automation scripts for Mac and Windows.
 * **`Runtimes/`**: Contains the master results spreadsheet (`ByscayneMode_Benchmarks.xlsx`).
 * **`Scripts/`**: Python notebooks for post-processing and generating the plots/statistics found in the article.
-* **`images/`**: Figures and heatmaps used in the publication.
+* **`images/`**: Figures used in the publication.
 
 ## Benchmarking Methodology
 The protocol mimics the workload of a PEST parallel calibration agent using **USG-TRANSPORT 1.8**. The model is executed repeatedly, systematically increasing the number of simultaneous agents from 1 to 16 per machine.
@@ -52,7 +52,6 @@ The scripts are located in `benchmark_model/executables/Mac/scripts` and are pro
     ```bash
     chmod +x *.sh
     ```
-   
 2.  **Execution:**
     * Run `./copy_files.sh` to generate agent folders.
     * Run `./open_and_run.sh` to launch the simulations.
@@ -78,6 +77,12 @@ The following heatmap illustrates runtime performance (in minutes) across 16 dif
 
 ![Runtime Heatmap](images/runtime_heatmap.png)
 *(Figure 2 from the associated Technology Spotlight article)*
+
+### Runtime Statistics
+Detailed statistical breakdown of runtime performance for all tested configurations.
+
+![Runtime Statistics](images/runtime_statistics.png)
+*(Table 1 from the associated Technology Spotlight article)*
 
 ### Summary
 * **Thermal Stability:** ARM-based chips maintained nearly flat runtime slopes under load, whereas x86 chips often exhibited steep linear degradation due to thermal throttling.
