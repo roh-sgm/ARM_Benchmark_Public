@@ -92,6 +92,11 @@ Detailed statistical breakdown of runtime performance for all tested configurati
 We encourage the community to contribute their own results to expand this industry database. Please submit your benchmark results via a **Pull Request** containing your updated `ByscayneMode_Benchmarks.xlsx`.
 
 ## References
-* Panday, Sorab, et al. (2013). MODFLOW-USG version 1. USGS Techniques and Methods 6-A45.
-* Apple Inc. (2020). Apple unleashes M1.
-* USGS (2025). pymake.
+* White, J.T., Hunt, R.J., Fienen, M.N., and Doherty, J.E., 2020, Approaches to Highly Parameterized Inversion: PEST++ Version 5, a Software Suite for Parameter Estimation, Uncertainty Analysis, Management Optimization and Sensitivity Analysis: U.S. Geological Survey Techniques and Methods 7C26, 52 p., [https://doi.org/10.3133/tm7C26](https://doi.org/10.3133/tm7C26) (last accessed on Dec 18th 2025).
+* Doherty, J., 2024, PEST_HP Pest for Highly Parallelized Computing Environments. Watermark Numerical Computing, March 2024. PEST_HP version 18. [https://pesthomepage.org](https://pesthomepage.org) (last accessed on Dec 18th 2025).
+* Apple Inc. (2020). Apple unleashes M1. Apple Newsroom. [https://www.apple.com/newsroom/2020/11/apple-unleashes-m1/](https://www.apple.com/newsroom/2020/11/apple-unleashes-m1/) (last accessed on Dec 18th 2025).
+* USGS (2025a). pymake. Python package for building MODFLOW-based programs from source files. [https://github.com/modflowpy/pymake](https://github.com/modflowpy/pymake) (last accessed on Dec 18th 2025).
+* USGS (2025b). MODFLOW executables GitHub Repo. [https://github.com/MODFLOW-ORG/executables](https://github.com/MODFLOW-ORG/executables) (last accessed on Dec 18th 2025).
+* Panday, Sorab, Langevin, C.D., Niswonger, R.G., Ibaraki, Motomu, and Hughes, J.D., 2013, MODFLOW-USG version 1: An unstructured grid version of MODFLOW for simulating groundwater flow and tightly coupled processes using a control volume finite-difference formulation: U.S. Geological Survey Techniques and Methods, book 6, chap. A45, 66 p., [https://doi.org/10.3133/tm6A45](https://doi.org/10.3133/tm6A45)
+* Panday, S. (2025). USG-Transport 2.6.0: Transport and other enhancements to MODFLOW-USG. [https://www.gsienv.com/software/modflow-usg/modflow-usg/](https://www.gsienv.com/software/modflow-usg/modflow-usg/) (last accessed on Dec 18th 2025).
+
