@@ -1,0 +1,23 @@
+@echo off
+setlocal enabledelayedexpansion
+
+:: Define the folder prefix and range
+set "FOLDER_PREFIX=a"
+set "START=1"
+set "END=16"
+
+:: Loop through each folder and delete it
+for /L %%i in (%START%,1,%END%) do (
+    set "FOLDER=%FOLDER_PREFIX%%%i"
+    
+    :: Check if the folder exists
+    if exist "!FOLDER!" (
+        echo Deleting folder: !FOLDER!
+        rmdir /s /q "!FOLDER!"  :: Remove the folder and its contents
+    ) else (
+        echo Folder '!FOLDER!' does not exist. Skipping.
+    )
+)
+
+echo Cleanup complete. All folders deleted.
+exit /b 0

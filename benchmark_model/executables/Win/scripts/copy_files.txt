@@ -1,0 +1,29 @@
+@echo off
+setlocal enabledelayedexpansion
+
+:: Define the source folder
+set "SOURCE_FOLDER=files"
+
+:: Check if the source folder exists
+if not exist "%SOURCE_FOLDER%" (
+    echo Source folder '%SOURCE_FOLDER%' does not exist.
+    exit /b 1
+)
+
+:: Loop to create folders a1 through a16 and copy the contents
+for /L %%i in (1,1,16) do (
+    set "DEST_FOLDER=a%%i"
+    
+    :: Create the destination folder if it doesn't exist
+    if not exist "!DEST_FOLDER!" (
+        mkdir "!DEST_FOLDER!"
+        echo Created folder: !DEST_FOLDER!
+    )
+    
+    :: Copy the contents of the source folder into the destination folder
+    xcopy /E /I /Y "%SOURCE_FOLDER%\*" "!DEST_FOLDER!\"
+    echo Copied contents of '%SOURCE_FOLDER%' to '!DEST_FOLDER!'
+)
+
+echo All files copied successfully.
+exit /b 0

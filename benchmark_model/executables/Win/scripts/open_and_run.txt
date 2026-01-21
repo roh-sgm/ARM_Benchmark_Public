@@ -1,0 +1,25 @@
+@echo off
+setlocal enabledelayedexpansion
+
+:: Define the folder prefix
+set "FOLDER_PREFIX=a"
+set "START=1"
+set "END=16"
+
+:: Loop through each folder
+for /L %%i in (%START%,1,%END%) do (
+    set "FOLDER=%FOLDER_PREFIX%%%i"
+    
+    :: Check if the folder exists
+    if exist "!FOLDER!" (
+        echo Opening Command Prompt in folder: !FOLDER!
+        
+        :: Open a new Command Prompt window and run the script inside the folder
+        start cmd /k "cd /d !FOLDER! && call run.bat"
+    ) else (
+        echo Folder '!FOLDER!' does not exist. Skipping.
+    )
+)
+
+echo All Command Prompt windows opened and run.bat executed.
+exit /b 0
