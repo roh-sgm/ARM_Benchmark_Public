@@ -3,6 +3,8 @@ setlocal enabledelayedexpansion
 
 :: Define the source folder
 set "SOURCE_FOLDER=files"
+set "START=1"
+set "END=16"
 
 :: Check if the source folder exists
 if not exist "%SOURCE_FOLDER%" (
@@ -11,7 +13,7 @@ if not exist "%SOURCE_FOLDER%" (
 )
 
 :: Loop to create folders a1 through a16 and copy the contents
-for /L %%i in (1,1,16) do (
+for /L %%i in (%START%,1,%END%) do (
     set "DEST_FOLDER=a%%i"
     
     :: Create the destination folder if it doesn't exist
