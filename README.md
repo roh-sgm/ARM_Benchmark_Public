@@ -21,6 +21,7 @@ The protocol mimics the workload of a PEST parallel calibration agent using **US
 
 * **Metric:** "Maximum Runtime"—the time required for the *slowest* realization in the batch to complete.
 * **Constraint:** All agents simulate identical model realizations to maintain strictly controlled hardware throughput comparison.
+* **macOS Executable:** The USG-T 1.8 binary used for all macOS benchmarks was compiled with pymake using an Intel (x86) compiler. It is not a native ARM executable; execution on Apple Silicon machines was performed through Rosetta 2 translation.
 
 ## Getting Started
 
