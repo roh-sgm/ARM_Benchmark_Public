@@ -3,7 +3,7 @@
 **A Performance Benchmark of Apple ARM Silicon vs. x86 Architectures for Groundwater Model Calibration**
 
 ## Overview
-This repository contains the benchmarking suite, automation scripts, and results database associated with the *Groundwater* journal Technology Spotlight article: *"Emerging Architectures: A Performance Benchmark of Apple ARM Silicon for Groundwater Modeling."*
+This repository contains the benchmarking suite, automation scripts, and results database associated with the *Groundwater* journal Technology Spotlight article: *"Emerging Architectures: A Performance Benchmark of Apple ARM Silicon for Groundwater Modeling"* ([doi:10.1111/gwat.70061](https://ngwa.onlinelibrary.wiley.com/doi/10.1111/gwat.70061)).
 
 As groundwater modeling enters the "ensemble era" (PESTPP-IES, PEST_HP), computational bottlenecks have shifted from single-run times to the throughput of thousands of realizations. This project benchmarks consumer-grade ARM-based hardware (specifically Apple Silicon) against traditional x86 workstations to evaluate viability, cost-efficiency, and thermal stability for high-throughput PEST workflows.
 
