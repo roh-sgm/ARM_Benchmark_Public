@@ -88,18 +88,20 @@ USG-T reports runtime in "Minutes, Seconds" (e.g., `6 Minutes, 6.767 Seconds`). 
     * `Architecture` — CPU hardware type: `x86` or `ARM`
     * `Exe Architecture` — which binary was used: `x86 (ifort)`, `x86 (ifort) via Rosetta 2`, or `ARM64 (gfortran)`
 
-## New Finding: ARM-Native Binary Delivers a Further ~23% Speedup on Apple Silicon
+## New Finding: ARM-Native Binary Delivers a 1.23× Speedup on Apple Silicon
 
 > **All results in the published paper used the x86 ifort binary running under Rosetta 2 — even on Apple Silicon machines.**
 > Now that a native ARM64 binary is available, direct comparisons are possible.
 
-Initial benchmarks on an **Apple M5 MacBook Pro** show that switching from the x86 binary (via Rosetta 2) to the native ARM64 binary reduces runtimes by approximately **18–30% depending on agent count**, with a mean improvement of **~23%**:
+Initial benchmarks on an **Apple M5 MacBook Pro** show that the native ARM64 binary runs **1.23× faster** than the x86 binary under Rosetta 2 on average — meaning runtimes are **~19% shorter** across all agent counts:
 
-| Metric | x86 ifort (Rosetta 2) | ARM64 gfortran (native) | Improvement |
+| Metric | x86 ifort (Rosetta 2) | ARM64 gfortran (native) | Speedup |
 |---|---|---|---|
-| Mean runtime (1–16 agents) | 8.17 min | 6.66 min | **~23% faster** |
-| Single-agent runtime | 4.52 min | 3.48 min | **~30% faster** |
-| 16-agent runtime | 13.82 min | 11.37 min | **~18% faster** |
+| Mean runtime (1–16 agents) | 8.17 min | 6.66 min | **1.23× (−19%)** |
+| Single-agent runtime | 4.52 min | 3.48 min | **1.30× (−23%)** |
+| 16-agent runtime | 13.82 min | 11.37 min | **1.22× (−18%)** |
+
+> **Note on metrics:** the speedup factor (1.23×) is the ratio of x86 to ARM runtime. The percentage in parentheses (−19%) is the runtime reduction `(x86 − ARM) / x86`. Both describe the same result; the plot below uses the runtime reduction.
 
 This finding adds a new dimension to the benchmark: **the strong Apple Silicon results reported in the paper were achieved despite a Rosetta 2 translation overhead.** Native ARM execution pushes M-series performance even further ahead. Re-benchmarking all Mac machines with the ARM64 binary is ongoing.
 
