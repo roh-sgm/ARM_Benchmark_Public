@@ -144,7 +144,7 @@ Statistical breakdown (min, mean, max, std dev) for all tested configurations, r
 
 ### Summary
 * **Thermal Stability:** ARM-based chips maintained nearly flat runtime slopes under load, whereas x86 chips often exhibited steep linear degradation due to thermal throttling.
-* **Cost Efficiency:** A consumer-grade **M4 Mac Mini** (~$600) achieved parity with a 64-core **AMD Threadripper 3990X** (~$4,000+) in parallel throughput tests (avg runtimes: 8.94 min vs 8.93 min).
+* **Cost Efficiency:** A consumer-grade **M4 Mac Mini** (\~$600) achieved parity with a 64-core **AMD Threadripper 3990X** (\~$4,000+) in parallel throughput tests (avg runtimes: 8.94 min vs 8.93 min).
 * **Native ARM binary:** switching from x86 ifort (Rosetta 2) to the native ARM64 gfortran binary on the M5 delivers a further **1.23× speedup** (mean runtime 19% shorter). See the new finding section above.
 
 ## Contributing
