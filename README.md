@@ -39,15 +39,27 @@ The protocol mimics the workload of a PEST parallel calibration agent using **US
 ### 2. Choose Your OS Instructions
 
 #### For Windows Users
-The scripts are located in `benchmark_model/executables/Win/scripts`. They are provided as `.txt` files to avoid antivirus deletion.
-1.  **Rename the scripts:**
-    * `copy_files.txt` → `copy_files.bat`
-    * `open_and_run.txt` → `open_and_run.bat`
-    * `clean_up.txt` → `clean_up.bat`
-2.  **Execution:**
-    * Run `copy_files.bat` to generate agent folders (default: 16 folders).
-    * Run `open_and_run.bat` to launch the simulations.
-    * Run `clean_up.bat` after recording results to delete generated folders.
+The scripts are located in `benchmark_model/executables/Win/scripts`.
+1.  **Automated workflow (recommended):**
+    `run_benchmark_suite.ps1` is a PowerShell script that mirrors the macOS automated workflow. Run it from a PowerShell terminal:
+    ```powershell
+    # Allow local scripts (one-time, if not already set)
+    Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+
+    # Run full 1–16 agent sweep
+    .\run_benchmark_suite.ps1 USGs_1.exe
+
+    # Run a single batch (e.g., 8 agents only)
+    .\run_benchmark_suite.ps1 USGs_1.exe 8
+
+    # Run a range (e.g., agents 10 through 16)
+    .\run_benchmark_suite.ps1 USGs_1.exe 10 16
+    ```
+    Requires Python 3 on PATH (`retrieve_runtimes.py` is included in the same folder).
+
+2.  **Manual workflow:** The legacy batch scripts are provided as `.txt` files to avoid antivirus deletion.
+    * Rename: `copy_files.txt` → `copy_files.bat`, `open_and_run.txt` → `open_and_run.bat`, `clean_up.txt` → `clean_up.bat`
+    * Run `copy_files.bat` → `open_and_run.bat` → `clean_up.bat` in sequence.
 
 #### For macOS Users
 The scripts are located in `benchmark_model/executables/Mac/scripts` and are provided as `.sh` files.
@@ -72,21 +84,26 @@ The scripts are located in `benchmark_model/executables/Mac/scripts` and are pro
     # Run a range (e.g., agents 10 through 16)
     ./run_benchmark_suite.sh usgt_180_arm 10 16
     ```
-    Results are appended to `benchmark_results.csv` in the scripts folder. `retrieve_runtimes.py` (in the same folder) is required and handles runtime parsing automatically.
+    Results are saved to `{ComputerName}_{datetime}_benchmark_results.csv` in the scripts folder. `retrieve_runtimes.py` (in the same folder) is required and handles runtime parsing automatically.
 
-### 3. Reporting Results
+### 3. Submitting Your Results
 
-**Calculate Runtime:**
-USG-T reports runtime in "Minutes, Seconds" (e.g., `6 Minutes, 6.767 Seconds`). Convert this to decimal minutes for consistency.
-* *Calculation:* 6 + (6.767 / 60) = 6.1128 minutes
-* *Precision:* Round to **4 decimal places**.
+Run the automated script — it produces a self-contained CSV named after your machine and the run timestamp (e.g. `WorkM5_2026-04-07_210000_benchmark_results.csv`). Then open a **GitHub Issue** and attach the CSV, or include it in a **Pull Request** by placing it in the `Runtimes/submissions/` folder.
 
-**Submit Data:**
-1.  Open `Runtimes/ByscayneMode_Benchmarks.xlsx`.
-2.  **Sheet 1 (Runtimes):** Enter your hardware details (CPU Type, Computer Name, Cores) and the runtime for each agent count (1–16).
-3.  **Sheet 2 (Authors):** Add a row with your metadata (Name, Email, Date, CPU Architecture, **Exe Architecture**, Manufacturer, etc.).
-    * `Architecture` — CPU hardware type: `x86` or `ARM`
-    * `Exe Architecture` — which binary was used: `x86 (ifort)`, `x86 (ifort) via Rosetta 2`, or `ARM64 (gfortran)`
+Please include the following metadata in your issue or PR description:
+
+| Field | Example |
+|---|---|
+| Computer name | WorkM5 |
+| CPU model | Apple M5 |
+| CPU cores / speed | 10c — 4.61 GHz |
+| OS | macOS 15.3 |
+| CPU architecture | ARM |
+| Executable used | `usgt_180_arm` (ARM64 gfortran) |
+| Manufacturer | Apple |
+| Computer type | MacBook Pro Laptop |
+
+> The maintainer will integrate submitted CSVs into `ByscayneMode_Benchmarks.xlsx` and regenerate the plots. You do not need to edit the spreadsheet directly.
 
 ## New Finding: ARM-Native Binary Delivers a 1.23× Speedup on Apple Silicon
 
@@ -131,7 +148,7 @@ Statistical breakdown (min, mean, max, std dev) for all tested configurations, r
 * **Native ARM binary:** switching from x86 ifort (Rosetta 2) to the native ARM64 gfortran binary on the M5 delivers a further **1.23× speedup** (mean runtime 19% shorter). See the new finding section above.
 
 ## Contributing
-We encourage the community to contribute their own results to expand this industry database. Please submit your benchmark results via a **Pull Request** containing your updated `ByscayneMode_Benchmarks.xlsx`.
+We encourage the community to contribute their own results to expand this industry database. Run the automated benchmark script for your platform, then submit the output CSV via a **GitHub Issue** or **Pull Request** (see *Submitting Your Results* above). You do not need to edit the master spreadsheet — the maintainer handles integration.
 
 ## References
 * Apple Inc. (2020). Apple unleashes M1. Apple Newsroom. [https://www.apple.com/newsroom/2020/11/apple-unleashes-m1/](https://www.apple.com/newsroom/2020/11/apple-unleashes-m1/) (last accessed on Dec 18th 2025).
