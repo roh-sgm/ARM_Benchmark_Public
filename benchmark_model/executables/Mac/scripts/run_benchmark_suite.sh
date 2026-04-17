@@ -31,12 +31,20 @@ else
     BATCH_END=$2
 fi
 
-# Ensure mfusgt_180_arm is on PATH
-export PATH="/Users/roh.sgm/bin/GSI:$PATH"
-
-# ── Detect executable, OS, and architecture ───────────────────────
+# ── Locate executable ──────────────────────────────────────────────
+# Looks for the binary in the parent directory (Mac/) first,
+# then falls back to anywhere on PATH — no hardcoded paths needed.
 EXECUTABLE="mfusgt_180_arm"
-EXE_PATH=$(which "$EXECUTABLE" 2>/dev/null || echo "not found")
+if [[ -x "${SCRIPT_DIR}/../${EXECUTABLE}" ]]; then
+    EXE_PATH="$(cd "${SCRIPT_DIR}/.." && pwd)/${EXECUTABLE}"
+elif command -v "$EXECUTABLE" &>/dev/null; then
+    EXE_PATH=$(command -v "$EXECUTABLE")
+else
+    echo "❌  Cannot find '${EXECUTABLE}'."
+    echo "    Place the binary in: $(cd "${SCRIPT_DIR}/.." && pwd)/"
+    echo "    or ensure it is on your PATH."
+    exit 1
+fi
 OS_NAME=$(uname -s)                          # e.g. Darwin, Linux
 OS_VERSION=$(sw_vers -productVersion 2>/dev/null || uname -r)  # e.g. 15.3.1
 EXE_ARCH=$(file "$EXE_PATH" 2>/dev/null | sed -E 's/.*executable //' | tr -d '\n' || echo "unknown")
@@ -107,7 +115,7 @@ run_batch() {
         local agent_dir="${SCRIPT_DIR}/a${i}"
         (
             cd "$agent_dir"
-            mfusgt_180_arm biscayne.nam > /dev/null 2>&1
+            "$EXE_PATH" biscayne.nam > /dev/null 2>&1
         ) &
         pids+=($!)
     done
