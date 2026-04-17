@@ -3,7 +3,7 @@
 **A Performance Benchmark of Apple ARM Silicon vs. x86 Architectures for Groundwater Model Calibration**
 
 ## Overview
-This repository contains the benchmarking suite, automation scripts, and results database associated with the *Groundwater* journal Technology Spotlight article: *"Emerging Architectures: A Performance Benchmark of Apple ARM Silicon for Groundwater Modeling"* ([doi:10.1111/gwat.70061](https://ngwa.onlinelibrary.wiley.com/doi/10.1111/gwat.70061)).
+This repository contains the benchmarking suite, automation scripts, and results database for a community-maintained hardware performance comparison for groundwater modeling. It originated from the *Groundwater* journal Technology Spotlight article *"Emerging Architectures: A Performance Benchmark of Apple ARM Silicon for Groundwater Modeling"* ([doi:10.1111/gwat.70061](https://ngwa.onlinelibrary.wiley.com/doi/10.1111/gwat.70061)), and has since been expanded beyond the published results — most notably with the addition of a native ARM64 binary for USG-Transport 1.8 and the first direct x86-vs-ARM comparisons on the same hardware.
 
 As groundwater modeling enters the "ensemble era" (PESTPP-IES, PEST_HP), computational bottlenecks have shifted from single-run times to the throughput of thousands of realizations. This project benchmarks consumer-grade ARM-based hardware (specifically Apple Silicon) against traditional x86 workstations to evaluate viability, cost-efficiency, and thermal stability for high-throughput PEST workflows.
 
@@ -14,7 +14,7 @@ As groundwater modeling enters the "ensemble era" (PESTPP-IES, PEST_HP), computa
     * `executables/`: Pre-compiled USG-TRANSPORT 1.8 binaries and automation scripts for Mac and Windows.
 * **`Runtimes/`**: Contains the master results spreadsheet (`ByscayneMode_Benchmarks.xlsx`).
 * **`Scripts/`**: Python notebooks for post-processing and generating the plots/statistics found in the article.
-* **`images/`**: Figures used in the publication.
+* **`images/`**: Benchmark visualizations, updated as new results are added.
 
 ## Benchmarking Methodology
 The protocol mimics the workload of a PEST parallel calibration agent using **USG-TRANSPORT 1.8**. The model is executed repeatedly, systematically increasing the number of simultaneous agents from 1 to 16 per machine.
@@ -113,21 +113,22 @@ A new **1-to-1 comparison plot** is available in `Scripts/Post-Proc/Runtime_Plot
 ## Key Findings & Visualization
 The benchmark results reveal a significant efficiency paradox between consumer ARM chips and high-end x86 workstations.
 
+> **Note:** all results in the published article used the x86 ifort binary (via Rosetta 2 on Apple Silicon). The figures below reflect the current state of the dataset, which now includes Test17 — the first M5 benchmark run with the native ARM64 binary.
+
 ### Runtime Heatmap
-The following heatmap illustrates runtime performance (in minutes) across 16 different hardware configurations. Green indicates faster runtimes; red indicates slower runtimes. Note the "thermal throttling" shift occurs much earlier on x86 chips compared to Apple Silicon.
+Runtime performance (in minutes) across all hardware configurations. Green = faster; red = slower. Note how the "thermal throttling" degradation slope appears much earlier on x86 chips than on Apple Silicon.
 
 ![Runtime Heatmap](images/runtime_heatmap.png)
-*(Figure 2 from the associated Technology Spotlight article)*
 
 ### Runtime Statistics
-Detailed statistical breakdown of runtime performance for all tested configurations.
+Statistical breakdown (min, mean, max, std dev) for all tested configurations, ranked by mean runtime.
 
 ![Runtime Statistics](images/runtime_statistics.png)
-*(Table 1 from the associated Technology Spotlight article)*
 
 ### Summary
 * **Thermal Stability:** ARM-based chips maintained nearly flat runtime slopes under load, whereas x86 chips often exhibited steep linear degradation due to thermal throttling.
 * **Cost Efficiency:** A consumer-grade **M4 Mac Mini** (~$600) achieved parity with a 64-core **AMD Threadripper 3990X** (~$4,000+) in parallel throughput tests (avg runtimes: 8.94 min vs 8.93 min).
+* **Native ARM binary:** switching from x86 ifort (Rosetta 2) to the native ARM64 gfortran binary on the M5 delivers a further **1.23× speedup** (mean runtime 19% shorter). See the new finding section above.
 
 ## Contributing
 We encourage the community to contribute their own results to expand this industry database. Please submit your benchmark results via a **Pull Request** containing your updated `ByscayneMode_Benchmarks.xlsx`.
