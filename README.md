@@ -60,18 +60,19 @@ The scripts are located in `benchmark_model/executables/Mac/scripts` and are pro
     * Run `./open_and_run.sh` to launch the simulations.
     * Run `./clean_up.sh` to delete folders after testing.
 3.  **Automated workflow (recommended):**
-    A new script `run_benchmark_suite.sh` automates the full 1–16 agent sweep in a single command. It runs each batch sequentially, waits for all agents to finish, parses runtimes automatically, and appends results to `benchmark_results.csv`.
+    `run_benchmark_suite.sh` automates the full sweep in a single command. Pass the executable name as the first argument — the script looks for it in the `Mac/` directory, then falls back to your system `PATH`.
     ```bash
     # Run full 1–16 agent sweep
-    ./run_benchmark_suite.sh
+    ./run_benchmark_suite.sh usgt_180_arm          # ARM native binary
+    ./run_benchmark_suite.sh mfusg_gsi_1_8         # x86 binary (Rosetta 2)
 
     # Run a single batch (e.g., 8 agents only)
-    ./run_benchmark_suite.sh 8
+    ./run_benchmark_suite.sh usgt_180_arm 8
 
     # Run a range (e.g., agents 10 through 16)
-    ./run_benchmark_suite.sh 10 16
+    ./run_benchmark_suite.sh usgt_180_arm 10 16
     ```
-    > **Note:** `run_benchmark_suite.sh` calls `retrieve_runtimes.py` (included in the same folder) and requires Python 3. Edit the `PATH` line near the top of the script to point to your local USG-T executable.
+    Results are appended to `benchmark_results.csv` in the scripts folder. `retrieve_runtimes.py` (in the same folder) is required and handles runtime parsing automatically.
 
 ### 3. Reporting Results
 
