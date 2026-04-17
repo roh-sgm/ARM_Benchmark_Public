@@ -21,7 +21,9 @@ The protocol mimics the workload of a PEST parallel calibration agent using **US
 
 * **Metric:** "Maximum Runtime"—the time required for the *slowest* realization in the batch to complete.
 * **Constraint:** All agents simulate identical model realizations to maintain strictly controlled hardware throughput comparison.
-* **macOS Executable:** The USG-T 1.8 binary used for all macOS benchmarks was compiled with pymake using an Intel (x86) compiler. It is not a native ARM executable; execution on Apple Silicon machines was performed through Rosetta 2 translation.
+* **macOS Executables:** Two binaries are now available for macOS:
+  * `mfusg_gsi_1_8` — x86-64 compiled with ifort (Intel). **All results in the published paper and the original dataset used this binary.** Execution on Apple Silicon was performed through Rosetta 2 translation.
+  * `usgt_180_arm` — native ARM64 compiled with GFortran on Apple Silicon. Requires Homebrew GCC (`brew install gcc`).
 
 ## Getting Started
 
@@ -53,10 +55,23 @@ The scripts are located in `benchmark_model/executables/Mac/scripts` and are pro
     ```bash
     chmod +x *.sh
     ```
-2.  **Execution:**
+2.  **Execution (manual workflow):**
     * Run `./copy_files.sh` to generate agent folders.
     * Run `./open_and_run.sh` to launch the simulations.
     * Run `./clean_up.sh` to delete folders after testing.
+3.  **Automated workflow (recommended):**
+    A new script `run_benchmark_suite.sh` automates the full 1–16 agent sweep in a single command. It runs each batch sequentially, waits for all agents to finish, parses runtimes automatically, and appends results to `benchmark_results.csv`.
+    ```bash
+    # Run full 1–16 agent sweep
+    ./run_benchmark_suite.sh
+
+    # Run a single batch (e.g., 8 agents only)
+    ./run_benchmark_suite.sh 8
+
+    # Run a range (e.g., agents 10 through 16)
+    ./run_benchmark_suite.sh 10 16
+    ```
+    > **Note:** `run_benchmark_suite.sh` calls `retrieve_runtimes.py` (included in the same folder) and requires Python 3. Edit the `PATH` line near the top of the script to point to your local USG-T executable.
 
 ### 3. Reporting Results
 
@@ -68,7 +83,26 @@ USG-T reports runtime in "Minutes, Seconds" (e.g., `6 Minutes, 6.767 Seconds`). 
 **Submit Data:**
 1.  Open `Runtimes/ByscayneMode_Benchmarks.xlsx`.
 2.  **Sheet 1 (Runtimes):** Enter your hardware details (CPU Type, Computer Name, Cores) and the runtime for each agent count (1–16).
-3.  **Sheet 2 (Authors):** Add a row with your metadata (Name, Email, Date, Architecture type).
+3.  **Sheet 2 (Authors):** Add a row with your metadata (Name, Email, Date, CPU Architecture, **Exe Architecture**, Manufacturer, etc.).
+    * `Architecture` — CPU hardware type: `x86` or `ARM`
+    * `Exe Architecture` — which binary was used: `x86 (ifort)`, `x86 (ifort) via Rosetta 2`, or `ARM64 (gfortran)`
+
+## New Finding: ARM-Native Binary Delivers a Further ~23% Speedup on Apple Silicon
+
+> **All results in the published paper used the x86 ifort binary running under Rosetta 2 — even on Apple Silicon machines.**
+> Now that a native ARM64 binary is available, direct comparisons are possible.
+
+Initial benchmarks on an **Apple M5 MacBook Pro** show that switching from the x86 binary (via Rosetta 2) to the native ARM64 binary reduces runtimes by approximately **18–30% depending on agent count**, with a mean improvement of **~23%**:
+
+| Metric | x86 ifort (Rosetta 2) | ARM64 gfortran (native) | Improvement |
+|---|---|---|---|
+| Mean runtime (1–16 agents) | 8.17 min | 6.66 min | **~23% faster** |
+| Single-agent runtime | 4.52 min | 3.48 min | **~30% faster** |
+| 16-agent runtime | 13.82 min | 11.37 min | **~18% faster** |
+
+This finding adds a new dimension to the benchmark: **the strong Apple Silicon results reported in the paper were achieved despite a Rosetta 2 translation overhead.** Native ARM execution pushes M-series performance even further ahead. Re-benchmarking all Mac machines with the ARM64 binary is ongoing.
+
+A new **1-to-1 comparison plot** is available in `Scripts/Post-Proc/Runtime_Plots_1.ipynb` (`plot_exe_comparison` function) to visualise x86 vs ARM native runtimes for any machine with paired results.
 
 ## Key Findings & Visualization
 The benchmark results reveal a significant efficiency paradox between consumer ARM chips and high-end x86 workstations.
