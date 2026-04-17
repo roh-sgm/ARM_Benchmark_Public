@@ -21,14 +21,19 @@
 #   ./run_benchmark_suite.sh usgt_180_arm 10 16     # ARM binary, batches 10-16
 #   ./run_benchmark_suite.sh mf6 1 8                # MF6 binary, batches 1-8
 #
-# Results are saved/appended to benchmark_results.csv in this directory.
+# Results are saved to {ComputerName}_{datetime}_benchmark_results.csv
+# in this directory.
 
 set -euo pipefail
 
 # ── Configuration ──────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-RESULTS_CSV="${SCRIPT_DIR}/benchmark_results.csv"
 PYTHON=python3
+
+# Computer name (spaces replaced with underscores) and run timestamp
+COMPUTER_NAME=$(scutil --get ComputerName 2>/dev/null | tr ' ' '_' || hostname -s)
+RUN_TIMESTAMP=$(date "+%Y-%m-%d_%H%M%S")
+RESULTS_CSV="${SCRIPT_DIR}/${COMPUTER_NAME}_${RUN_TIMESTAMP}_benchmark_results.csv"
 
 # ── Parse arguments ────────────────────────────────────────────────
 if [[ $# -eq 0 ]]; then
@@ -78,48 +83,6 @@ OS_NAME=$(uname -s)
 OS_VERSION=$(sw_vers -productVersion 2>/dev/null || uname -r)
 EXE_ARCH=$(file "$EXE_PATH" 2>/dev/null | sed -E 's/.*executable //' | tr -d '\n' || echo "unknown")
 
-# ── Helper: read already-completed batches from CSV ───────────────
-get_existing_batches() {
-    if [[ ! -f "$RESULTS_CSV" ]]; then
-        return
-    fi
-    tail -n +2 "$RESULTS_CSV" | cut -d',' -f1 | sort -n
-}
-
-# ── Check for duplicates and warn ─────────────────────────────────
-check_duplicates() {
-    local existing
-    existing=($(get_existing_batches))
-    if [[ ${#existing[@]} -eq 0 ]]; then
-        return 0
-    fi
-
-    echo "  Existing results in CSV: batches ${existing[*]}"
-    echo ""
-
-    local duplicates=()
-    for n in $(seq "$BATCH_START" "$BATCH_END"); do
-        for e in "${existing[@]}"; do
-            if [[ "$n" -eq "$e" ]]; then
-                duplicates+=("$n")
-                break
-            fi
-        done
-    done
-
-    if [[ ${#duplicates[@]} -gt 0 ]]; then
-        echo "  ⚠️  WARNING: Batches already have results: ${duplicates[*]}"
-        echo "     Re-running will add DUPLICATE rows to the CSV."
-        echo ""
-        printf "  Continue anyway? [y/N] "
-        read -r confirm
-        if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-            echo "  Aborted."
-            exit 0
-        fi
-        echo ""
-    fi
-}
 
 # ── Helper: clean output files for agents a1..aN ──────────────────
 clean_outputs() {
@@ -161,16 +124,9 @@ echo "  OS: ${OS_NAME} ${OS_VERSION}"
 echo "=========================================="
 echo ""
 
-if [[ ! -f "$RESULTS_CSV" ]]; then
-    echo "num_agents,slowest_runtime_minutes,slowest_agent,datetime,executable,os,arch" > "$RESULTS_CSV"
-    echo "  Created new results file: ${RESULTS_CSV}"
-else
-    local_count=$(( $(wc -l < "$RESULTS_CSV") - 1 ))
-    echo "  Appending to existing results file (${local_count} batches already recorded)"
-fi
+echo "num_agents,slowest_runtime_minutes,slowest_agent,datetime,executable,os,arch" > "$RESULTS_CSV"
+echo "  Results file: ${RESULTS_CSV}"
 echo ""
-
-check_duplicates
 
 for n in $(seq "$BATCH_START" "$BATCH_END"); do
     echo "──────────────────────────────────────────"
