@@ -104,6 +104,9 @@ This finding adds a new dimension to the benchmark: **the strong Apple Silicon r
 
 A new **1-to-1 comparison plot** is available in `Scripts/Post-Proc/Runtime_Plots_1.ipynb` (`plot_exe_comparison` function) to visualise x86 vs ARM native runtimes for any machine with paired results.
 
+![M5 x86 vs ARM Comparison](images/exe_comparison_WorkM5.png)
+*(Apple M5 WorkM5 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native)*
+
 ## Key Findings & Visualization
 The benchmark results reveal a significant efficiency paradox between consumer ARM chips and high-end x86 workstations.
 
