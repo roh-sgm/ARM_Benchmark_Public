@@ -21,7 +21,7 @@
 #   ./run_benchmark_suite.sh usgt_180_arm 10 16     # ARM binary, batches 10-16
 #   ./run_benchmark_suite.sh mf6 1 8                # MF6 binary, batches 1-8
 #
-# Results are saved to {ComputerName}_{datetime}_benchmark_results.csv
+# Results are saved to {ComputerName}_{executable}_{datetime}_benchmark_results.csv
 # in this directory.
 
 set -euo pipefail
@@ -33,7 +33,7 @@ PYTHON=python3
 # Computer name (spaces replaced with underscores) and run timestamp
 COMPUTER_NAME=$(scutil --get ComputerName 2>/dev/null | tr ' ' '_' || hostname -s)
 RUN_TIMESTAMP=$(date "+%Y-%m-%d_%H%M%S")
-RESULTS_CSV="${SCRIPT_DIR}/${COMPUTER_NAME}_${RUN_TIMESTAMP}_benchmark_results.csv"
+# RESULTS_CSV is set after argument parsing so the executable name is available
 
 # ── Parse arguments ────────────────────────────────────────────────
 if [[ $# -eq 0 ]]; then
@@ -61,6 +61,8 @@ else
     BATCH_START=$1
     BATCH_END=$2
 fi
+
+RESULTS_CSV="${SCRIPT_DIR}/${COMPUTER_NAME}_${EXECUTABLE}_${RUN_TIMESTAMP}_benchmark_results.csv"
 
 # ── Locate executable ──────────────────────────────────────────────
 # Looks for the binary in the parent directory (Mac/) first,

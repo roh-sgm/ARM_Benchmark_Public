@@ -84,11 +84,11 @@ The scripts are located in `benchmark_model/executables/Mac/scripts` and are pro
     # Run a range (e.g., agents 10 through 16)
     ./run_benchmark_suite.sh usgt_180_arm 10 16
     ```
-    Results are saved to `{ComputerName}_{datetime}_benchmark_results.csv` in the scripts folder. `retrieve_runtimes.py` (in the same folder) is required and handles runtime parsing automatically.
+    Results are saved to `{ComputerName}_{executable}_{datetime}_benchmark_results.csv` in the scripts folder. `retrieve_runtimes.py` (in the same folder) is required and handles runtime parsing automatically.
 
 ### 3. Submitting Your Results
 
-Run the automated script — it produces a self-contained CSV named after your machine and the run timestamp (e.g. `WorkM5_2026-04-07_210000_benchmark_results.csv`). Then open a **GitHub Issue** and attach the CSV, or include it in a **Pull Request** by placing it in the `Runtimes/submissions/` folder.
+Run the automated script — it produces a self-contained CSV named after your machine, the executable, and the run timestamp (e.g. `WorkM5_usgt_180_arm_2026-04-07_210000_benchmark_results.csv`). Then open a **GitHub Issue** and attach the CSV, or include it in a **Pull Request** by placing it in the `Runtimes/submissions/` folder.
 
 Please include the following metadata in your issue or PR description:
 

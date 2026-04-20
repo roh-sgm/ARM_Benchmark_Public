@@ -17,7 +17,7 @@
 #   .\run_benchmark_suite.ps1 USGs_1.exe 5           # batch 5 only
 #   .\run_benchmark_suite.ps1 USGs_1.exe 10 16       # batches 10-16
 #
-# Results are saved to {ComputerName}_{datetime}_benchmark_results.csv
+# Results are saved to {ComputerName}_{Executable}_{datetime}_benchmark_results.csv
 # in this directory.
 #
 # Requirements: Python 3 on PATH (for retrieve_runtimes.py).
@@ -42,7 +42,7 @@ $ScriptDir    = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ParentDir    = Split-Path -Parent $ScriptDir
 $ComputerName = $env:COMPUTERNAME
 $Timestamp    = Get-Date -Format "yyyy-MM-dd_HHmmss"
-$ResultsCsv   = Join-Path $ScriptDir "${ComputerName}_${Timestamp}_benchmark_results.csv"
+$ResultsCsv   = Join-Path $ScriptDir "${ComputerName}_${Executable}_${Timestamp}_benchmark_results.csv"
 $Python       = if (Get-Command python3 -ErrorAction SilentlyContinue) { "python3" } else { "python" }
 $RetrieveScript = Join-Path $ScriptDir "retrieve_runtimes.py"
 
