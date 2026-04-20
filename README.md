@@ -135,7 +135,7 @@ The `run_benchmark_suite.sh` / `run_benchmark_suite.ps1` automated scripts, intr
 Original paper results are kept in the dataset exactly as published — they will not be edited. New automated re-runs on the same machines are added as separate test entries, so both the published record and the updated methodology coexist in the repository.
 
 ![M3 Max x86 vs ARM Comparison](images/exe_comparison_WorkM3.png)
-*(Apple M3 Max WorkM3 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. **Note:** the x86 result (Test10) is from the original manual workflow published in the paper and is kept as-is for reproducibility. The ARM result (Test18) used the automated script. A new automated x86 run will be added as a separate test entry once available, enabling a fully paired automated comparison alongside the published result.)*
+*(Apple M3 Max WorkM3 — USG-Transport 1.8: x86 ifort via Rosetta 2 (Test20, automated) vs ARM64 gfortran native (Test18, automated). Both runs used `run_benchmark_suite.sh` in the same session — this is a properly paired comparison. The original manual x86 result from the paper (Test10) is preserved in the dataset for reproducibility.)*
 
 ![M5 x86 vs ARM Comparison](images/exe_comparison_WorkM5.png)
 *(Apple M5 WorkM5 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. Both runs used the automated script in the same session — this is a properly paired comparison.)*
