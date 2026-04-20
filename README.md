@@ -130,7 +130,8 @@ A new **1-to-1 comparison plot** is available in `Scripts/Post-Proc/Runtime_Plot
 ![M5 x86 vs ARM Comparison](images/exe_comparison_WorkM5.png)
 *(Apple M5 WorkM5 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native)*
 
-> M4 (SGM035) ARM results are now complete (full 1–16 agent sweep recorded). A 1-to-1 exe comparison for SGM035 requires an x86 run on the same machine; the existing M4 x86 data is from a different unit (SGM023).
+![M4 x86 vs ARM Proxy Comparison](images/exe_comparison_M4_proxy.png)
+*(Apple M4 — cross-machine proxy: SGM023 x86 ifort via Rosetta 2 vs SGM035 ARM64 gfortran native. Both are M4 Mac Mini units; a same-machine paired run is not yet available.)*
 
 ## Key Findings & Visualization
 The benchmark results reveal a significant efficiency paradox between consumer ARM chips and high-end x86 workstations.
