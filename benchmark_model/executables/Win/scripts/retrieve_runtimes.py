@@ -121,9 +121,14 @@ if __name__ == "__main__":
         "--agents", type=int, default=None,
         help="Number of agents to probe (a1..aN). Overrides END from open_and_run.sh.",
     )
+    parser.add_argument(
+        "--workdir", type=str, default=None,
+        help="Directory containing the a1..aN agent folders. "
+             "Defaults to the directory of this script.",
+    )
     args = parser.parse_args()
 
-    root_dir = Path(__file__).resolve().parent
+    root_dir = Path(args.workdir).resolve() if args.workdir else Path(__file__).resolve().parent
     output_csv = root_dir / "agent_runtimes.csv"
 
     data = collect_runtimes(root_dir, agent_count=args.agents)

@@ -46,6 +46,16 @@ $ResultsCsv   = Join-Path $ScriptDir "${ComputerName}_${Executable}_${Timestamp}
 $Python       = if (Get-Command python3 -ErrorAction SilentlyContinue) { "python3" } else { "python" }
 $RetrieveScript = Join-Path $ScriptDir "retrieve_runtimes.py"
 
+# ── Preflight checks ───────────────────────────────────────────────
+if (-not (Test-Path $RetrieveScript)) {
+    Write-Host ""
+    Write-Host "❌  retrieve_runtimes.py not found at: $RetrieveScript" -ForegroundColor Red
+    Write-Host "    This script must be run from its own directory, or the Python"
+    Write-Host "    helper must be present alongside run_benchmark_suite.ps1."
+    Write-Host ""
+    exit 1
+}
+
 # ── Locate executable ──────────────────────────────────────────────
 $ExePath = $null
 $Candidate = Join-Path $ParentDir $Executable
@@ -141,7 +151,7 @@ for ($n = $Start; $n -le $End; $n++) {
     $wallMin = [math]::Round($wallSec / 60.0, 2)
 
     # Parse runtimes
-    $output = & $Python $RetrieveScript --agents $n 2>&1
+    $output = & $Python $RetrieveScript --agents $n --workdir $ScriptDir 2>&1
     $slowestLine = $output | Where-Object { $_ -match "^Slowest run:" } | Select-Object -First 1
 
     if ($slowestLine) {

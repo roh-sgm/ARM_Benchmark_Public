@@ -64,6 +64,15 @@ fi
 
 RESULTS_CSV="${SCRIPT_DIR}/${COMPUTER_NAME}_${EXECUTABLE}_${RUN_TIMESTAMP}_benchmark_results.csv"
 
+# ── Preflight checks ───────────────────────────────────────────────
+RETRIEVE_SCRIPT="${SCRIPT_DIR}/retrieve_runtimes.py"
+if [[ ! -f "$RETRIEVE_SCRIPT" ]]; then
+    echo "❌  retrieve_runtimes.py not found at: ${RETRIEVE_SCRIPT}"
+    echo "    This script must be run from its own directory, or the Python"
+    echo "    helper must be present alongside run_benchmark_suite.sh."
+    exit 1
+fi
+
 # ── Locate executable ──────────────────────────────────────────────
 # Looks for the binary in the parent directory (Mac/) first,
 # then falls back to anywhere on PATH — no hardcoded paths needed.
@@ -143,7 +152,7 @@ for n in $(seq "$BATCH_START" "$BATCH_END"); do
     wall_seconds=$((end_time - start_time))
     wall_min=$(echo "scale=2; $wall_seconds / 60" | bc)
 
-    output=$("$PYTHON" "${SCRIPT_DIR}/retrieve_runtimes.py" --agents "$n" 2>&1)
+    output=$("$PYTHON" "$RETRIEVE_SCRIPT" --agents "$n" --workdir "$SCRIPT_DIR" 2>&1)
 
     slowest_line=$(echo "$output" | grep "^Slowest run:" || true)
     if [[ -n "$slowest_line" ]]; then
