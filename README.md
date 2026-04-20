@@ -151,6 +151,8 @@ The benchmark results reveal a significant efficiency paradox between consumer A
 ### Runtime Heatmap
 Runtime performance (in minutes) across all hardware configurations. Green = faster; red = slower. Note how the "thermal throttling" degradation slope appears much earlier on x86 chips than on Apple Silicon.
 
+**Label colours:** Intel = default · AMD = magenta · **Apple (manual/paper run) = dark blue** · **Apple (automated `run_benchmark_suite` run) = light blue**
+
 ![Runtime Heatmap](images/runtime_heatmap.png)
 
 ### Runtime Statistics
