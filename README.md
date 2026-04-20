@@ -124,14 +124,22 @@ This finding adds a new dimension to the benchmark: **the strong Apple Silicon r
 
 A new **1-to-1 comparison plot** is available in `Scripts/Post-Proc/Runtime_Plots_1.ipynb` (`plot_exe_comparison` function) to visualise x86 vs ARM native runtimes for any machine with paired results.
 
+### Methodology note: manual vs automated runs
+
+The original paper benchmarks (Tests 1–16) were collected using manual workflows — each agent batch was triggered individually, with variable idle time between batches. This means the chip starts each batch from a relatively cool thermal state.
+
+The `run_benchmark_suite.sh` / `run_benchmark_suite.ps1` automated scripts, introduced after the paper, run all batches (1→16 agents) sequentially with no pause between them. By the mid-to-high agent counts the chip has been under sustained load for an extended period, producing a more realistic picture of a real PEST parallel calibration run — but a different thermal starting condition than the manual approach.
+
+**For rigorous x86 vs ARM paired comparisons, both binaries should be run with the automated script on the same machine in the same session.** Where the x86 result comes from a manual run and the ARM result from the automated script (or vice versa), the comparison reflects a mix of hardware and methodology differences and should be interpreted with caution.
+
 ![M3 Max x86 vs ARM Comparison](images/exe_comparison_WorkM3.png)
-*(Apple M3 Max WorkM3 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native)*
+*(Apple M3 Max WorkM3 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. **Note:** the x86 result is from the original manual workflow used for the paper; the ARM result used the automated script. A re-run of the x86 benchmark with the automated script is pending and may revise this comparison.)*
 
 ![M5 x86 vs ARM Comparison](images/exe_comparison_WorkM5.png)
-*(Apple M5 WorkM5 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native)*
+*(Apple M5 WorkM5 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. Both runs used the automated script in the same session — this is a properly paired comparison.)*
 
 ![M4 x86 vs ARM Proxy Comparison](images/exe_comparison_M4_proxy.png)
-*(Apple M4 — cross-machine proxy: SGM023 x86 ifort via Rosetta 2 vs SGM035 ARM64 gfortran native. Both are M4 Mac Mini units; a same-machine paired run is not yet available.)*
+*(Apple M4 — cross-machine proxy: SGM023 x86 ifort via Rosetta 2 vs SGM035 ARM64 gfortran native. Both are M4 Mac Mini units but different machines; a same-machine paired run is not yet available.)*
 
 ## Key Findings & Visualization
 The benchmark results reveal a significant efficiency paradox between consumer ARM chips and high-end x86 workstations.
