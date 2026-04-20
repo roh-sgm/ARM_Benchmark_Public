@@ -143,8 +143,13 @@ Original paper results are kept in the dataset exactly as published — they wil
 ![M4 x86 vs ARM Proxy Comparison](images/exe_comparison_M4_proxy.png)
 *(Apple M4 — cross-machine proxy: SGM023 x86 ifort via Rosetta 2 vs SGM035 ARM64 gfortran native. Both are M4 Mac Mini units but different machines; a same-machine paired run is not yet available.)*
 
+![M2 Pro x86 vs ARM Comparison](images/exe_comparison_WorkM2.png)
+*(Apple M2 Pro WorkM2 — USG-Transport 1.8: x86 ifort via Rosetta 2 (Test9, manual) vs ARM64 gfortran native (Test22, automated). **Note:** mixed methodology — x86 is from the original paper manual workflow. ARM native delivers a **1.24× speedup (20% shorter mean runtime)**. The curve remains flat and stable through 8 agents before gradually climbing — consistent M2 Pro thermal behaviour.)*
+
 ![M1 x86 vs ARM Comparison](images/exe_comparison_SGM001.png)
 *(Apple M1 SGM001 — USG-Transport 1.8: x86 ifort via Rosetta 2 (Test7, manual) vs ARM64 gfortran native (Test21, automated). **Note:** mixed methodology — x86 is from the original paper manual workflow. The ARM native binary still delivers a **1.20× speedup (16% shorter mean runtime)**, but the steep linear slope is the defining characteristic of this result: runtimes climb from 5.1 min (1 agent) to 25.5 min (16 agents) — a ~5× increase. Compare that to the M4/M5 which barely double over the same range. This is consistent with the paper's findings on thermal stability: the M1 has much less sustained-load headroom than newer Apple Silicon generations. Switching to the native ARM binary does not change that fundamental thermal behaviour — it simply runs each individual task faster across the board.)*
+
+> SGM005 (Apple M2) ARM benchmark is currently underway — comparison plot will be added once complete.
 
 ## Key Findings & Visualization
 The benchmark results reveal a significant efficiency paradox between consumer ARM chips and high-end x86 workstations.
