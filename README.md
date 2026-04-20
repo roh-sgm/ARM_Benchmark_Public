@@ -132,8 +132,10 @@ The `run_benchmark_suite.sh` / `run_benchmark_suite.ps1` automated scripts, intr
 
 **For rigorous x86 vs ARM paired comparisons, both binaries should be run with the automated script on the same machine in the same session.** Where the x86 result comes from a manual run and the ARM result from the automated script (or vice versa), the comparison reflects a mix of hardware and methodology differences and should be interpreted with caution.
 
+Original paper results are kept in the dataset exactly as published — they will not be edited. New automated re-runs on the same machines are added as separate test entries, so both the published record and the updated methodology coexist in the repository.
+
 ![M3 Max x86 vs ARM Comparison](images/exe_comparison_WorkM3.png)
-*(Apple M3 Max WorkM3 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. **Note:** the x86 result is from the original manual workflow used for the paper; the ARM result used the automated script. A re-run of the x86 benchmark with the automated script is pending and may revise this comparison.)*
+*(Apple M3 Max WorkM3 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. **Note:** the x86 result (Test10) is from the original manual workflow published in the paper and is kept as-is for reproducibility. The ARM result (Test18) used the automated script. A new automated x86 run will be added as a separate test entry once available, enabling a fully paired automated comparison alongside the published result.)*
 
 ![M5 x86 vs ARM Comparison](images/exe_comparison_WorkM5.png)
 *(Apple M5 WorkM5 — USG-Transport 1.8: x86 ifort via Rosetta 2 vs ARM64 gfortran native. Both runs used the automated script in the same session — this is a properly paired comparison.)*
