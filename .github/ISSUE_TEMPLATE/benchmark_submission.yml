@@ -1,0 +1,145 @@
+name: Benchmark Result Submission
+description: Submit benchmark runtime results for a new machine or configuration
+title: "[Benchmark] <Computer name> — <CPU model> — <Architecture>"
+labels: ["benchmark-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing to the ARM Benchmark dataset!
+
+        Before submitting, please:
+        1. Run the automated benchmark script (`run_benchmark_suite.sh` on macOS or `run_benchmark_suite.ps1` on Windows) for the full 1–16 agent sweep.
+        2. Attach the resulting `*_benchmark_results.csv` to this issue (drag-and-drop into the comment box).
+        3. Fill out the metadata fields below — they are integrated directly into `ByscayneMode_Benchmarks.xlsx`.
+
+        Manual-workflow submissions are accepted but please flag them under "Methodology" so the maintainer can label the entry correctly in the dataset.
+
+  - type: input
+    id: computer_name
+    attributes:
+      label: Computer name
+      description: Short identifier used for plot labels (e.g., WorkM5, SGM035, HomePC).
+      placeholder: WorkM5
+    validations:
+      required: true
+
+  - type: input
+    id: cpu_model
+    attributes:
+      label: CPU model
+      placeholder: Apple M5 / Intel Core i9-13900K / AMD Threadripper 3990X
+    validations:
+      required: true
+
+  - type: input
+    id: cpu_cores_speed
+    attributes:
+      label: CPU cores and clock speed
+      description: Format as "<cores>c — <speed> GHz". For Apple Silicon, report performance + efficiency cores if you know them.
+      placeholder: 10c — 4.61 GHz
+    validations:
+      required: true
+
+  - type: input
+    id: ram
+    attributes:
+      label: RAM
+      placeholder: 32 GB unified / 64 GB DDR5-5600
+    validations:
+      required: true
+
+  - type: dropdown
+    id: architecture
+    attributes:
+      label: CPU architecture
+      options:
+        - ARM
+        - x86
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and version
+      placeholder: macOS 15.3 / Windows 11 23H2 / Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: dropdown
+    id: executable
+    attributes:
+      label: Executable used
+      options:
+        - usgt_180_arm (ARM64 gfortran, native)
+        - mfusg_gsi_1_8 (x86-64 ifort, native or Rosetta 2)
+        - USGs_1.exe (Windows x86-64)
+        - Other (specify in Notes)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: methodology
+    attributes:
+      label: Methodology
+      description: Was the sweep triggered by the automated script in a single session, or each agent batch run manually with idle time between?
+      options:
+        - Automated (run_benchmark_suite.sh / .ps1, sequential, no pause)
+        - Manual (each batch triggered individually, chip cooled between batches)
+    validations:
+      required: true
+
+  - type: input
+    id: manufacturer
+    attributes:
+      label: Manufacturer
+      placeholder: Apple / Dell / Custom build
+    validations:
+      required: true
+
+  - type: dropdown
+    id: form_factor
+    attributes:
+      label: Form factor
+      options:
+        - MacBook Pro Laptop
+        - MacBook Air Laptop
+        - Mac Mini
+        - Mac Studio
+        - Desktop Workstation
+        - Tower / Server
+        - Other (specify in Notes)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cooling
+    attributes:
+      label: Cooling
+      options:
+        - Stock (factory cooling, no modification)
+        - Aftermarket air
+        - Aftermarket liquid (AIO)
+        - Custom loop
+        - Active external (e.g., laptop cooling pad, mac mini stand with fans)
+    validations:
+      required: true
+
+  - type: textarea
+    id: csv_attached
+    attributes:
+      label: Confirm CSV attached
+      description: Drag and drop the `*_benchmark_results.csv` produced by the automated script into the comment box. Confirm here that it is attached.
+      placeholder: "Yes — attached: WorkM5_usgt_180_arm_2026-04-07_210000_benchmark_results.csv"
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything that might affect interpretation — thermal observations, background load, an unusual binary, paired x86-vs-ARM session details, etc.
+      placeholder: "Run was paired with WorkM5 x86 results in the same session for direct comparison. Ambient temperature ~22°C. No other significant load on the machine."
+    validations:
+      required: false
